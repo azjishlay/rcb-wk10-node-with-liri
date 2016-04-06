@@ -1,19 +1,39 @@
+// System messages start with ###
+
+// Grab command and input
+var command = String(process.argv[2]);
+var input = String(process.argv.slice(3).join(" "));
+
+// console.log(command);
+// console.log(input);
+
 // Create if/then scenario for commands
-switch (process.argv[2]) {
+switch (command) {
 
   case "my-tweets": 
-    displayTweets(process.argv[3]);
+
+    displayTweets(input);
     break;
 
-  case "spotify-this-song":
-    // spotify(process.argv[3]);
+  case "spotify-this":
+
+    // Set default song
+    if (input == "") {
+      console.log("### You did not enter a song. Check out this one: ");
+      input = "i took a pill in ibiza";
+    }
+
+    spotifyThis(input);
     break;
+
   case "movie-this":
-    // movie(process.argv[3]);
+    movieThis(input);
     break;
+
   case "do-what-it-says":
     // doRandom();
     break;
+
   default:
     console.log("Command not valid!");
 }
@@ -44,7 +64,7 @@ function displayTweets(handle) {
   });
 
   if (handle == null) {
-    console.log("No handle was entered.");
+    console.log("### No handle was entered.");
   } else {
 
     var params = {screen_name: handle};
@@ -55,7 +75,7 @@ function displayTweets(handle) {
         if (!error) {
 
           console.log("");
-          console.log("Latest tweets from @" + handle);
+          console.log("LATEST TWEETS FROM @" + handle);
           console.log("");
 
           for (var i = 0; i < 5; i++) {
@@ -64,13 +84,34 @@ function displayTweets(handle) {
             console.log("");
           } 
         } else {
-          console.log('There was an error in retrieving your tweets.');
+          console.log("### There was an error in retrieving your tweets.");
         }
       });
   }
 
 }
 
-function spotify(song) {
+function spotifyThis(song) {
   
+  var spotify = require('spotify');
+
+  spotify.search({
+    type: 'track',
+    query: song
+  }, function(err, data) {
+    if ( err ) {
+        console.log("### There was an error in looking up this song.");
+        return;
+    }
+ 
+    // Do something with 'data' 
+    console.log(" ");
+    console.log("SONG: " + data.tracks.items[0].name);
+    console.log("ARTIST: " + data.tracks.items[0].artists[0].name);
+    console.log("ALBUM: " + data.tracks.items[0].album.name);
+    console.log(" ");
+    console.log("PREVIEW THIS SONG: " + data.tracks.items[0].preview_url);
+    console.log(" ");
+  });
+
 }
