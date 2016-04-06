@@ -7,35 +7,48 @@ var input = String(process.argv.slice(3).join(" "));
 // console.log(command);
 // console.log(input);
 
-// Create if/then scenario for commands
-switch (command) {
+liri(command, input);
 
-  case "my-tweets": 
+function liri(command, input) {
 
-    displayTweets(input);
-    break;
+  // Create if/then scenario for commands
+  switch (command) {
 
-  case "spotify-this":
+    case "my-tweets": 
 
-    // Set default song
-    if (input == "") {
-      console.log("### You did not enter a song. Check out this one: ");
-      input = "i took a pill in ibiza";
-    }
+      displayTweets(input);
+      break;
 
-    spotifyThis(input);
-    break;
+    case "spotify-this":
 
-  case "movie-this":
-    movieThis(input);
-    break;
+      // Set default song
+      if (input == "") {
+        console.log("### You did not enter a song. Check out this one: ");
+        input = "i took a pill in ibiza";
+      };
 
-  case "do-what-it-says":
-    // doRandom();
-    break;
+      spotifyThis(input);
+      break;
 
-  default:
-    console.log("Command not valid!");
+    case "movie-this":
+
+      // Set default movie
+      if (input == "") {
+        console.log("### You did not enter a movie. Check out this one: ");
+        input = "dirty dancing";
+      };
+
+      movieThis(input);
+      break;
+
+    case "do-what-it-says":
+
+      doRandom();
+      break;
+
+    default:
+      console.log("Command not valid!");
+  }
 }
 
 function displayTweets(handle) {
@@ -87,6 +100,8 @@ function displayTweets(handle) {
           console.log("### There was an error in retrieving your tweets.");
         }
       });
+
+    log("my-tweets", handle);
   }
 
 }
@@ -112,6 +127,74 @@ function spotifyThis(song) {
     console.log(" ");
     console.log("PREVIEW THIS SONG: " + data.tracks.items[0].preview_url);
     console.log(" ");
+  });
+
+  log("spotify-this", song);
+
+}
+
+function movieThis(movie) {
+
+  var request = require('request');
+
+  request('http://www.omdbapi.com/?t=' + movie + 
+    '&y=&plot=short&tomatoes=true&r=json', function (error, response, body) {
+
+      if (!error && response.statusCode == 200) {
+
+        var data = JSON.parse(body);
+
+        console.log(" ");
+        console.log("TITLE: " + data.Title);
+        console.log("YEAR: " + data.Year);
+        console.log("COUNTRIES RELEASED: " + data.Country);
+        console.log("LANGUAGES: " + data.Language);
+        console.log("PLOT: " + data.Plot);
+        console.log("---");
+        console.log("IMDB RATING: " + data.imdbRating);
+        console.log("TOMATOES RATING: " + data.tomatoRating);
+        console.log(" ");
+
+      } else {
+        console.log("### There was an error in looking up this movie.");
+      }
+    });
+
+  log("movie-this", movie);
+
+}
+
+function doRandom() {
+
+  var fs = require('fs');
+
+  fs.readFile("random.txt", "utf8", function(err, data) {
+
+    if ( err ) {
+      console.log("### There was an error in reading the file.");
+      return;
+    }
+
+    var dataArray = data.split(',');
+    // console.log(dataArray);
+
+    liri(dataArray[0],dataArray[1]);
+  
+  });
+
+}
+
+function log(command, input) {
+
+  var fs = require('fs');
+
+  fs.appendFile("log.txt", command + "," + input + ",", function(err){
+    if(err){
+      console.log("### There was an error in writing the file.");
+    }
+    else {
+      console.log("### Your command was logged.");
+    }
   });
 
 }

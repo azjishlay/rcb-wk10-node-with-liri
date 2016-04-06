@@ -2,28 +2,34 @@
 
 ### Who is LIRI
 
-SIRI is a Speech Interpretation and Recognition Interface.
+- SIRI is a Speech Interpretation and Recognition Interface.
 
-LIRI is a Language Interpretation and Recognition Interface.
+- LIRI is a Language Interpretation and Recognition Interface.
 
-LIRI is a command line node app that takes in paramaters and gives you back data.
+- LIRI is a command line node app that takes in paramaters and gives back data. :information_desk_person:
 
 ### LIRI Commands
 
-- To display tweets:
+- Display tweets:
 
 ```
 node liri.js my-tweets [twitter handle]
 ```
 
-- To search for a song:
+- Search for a song:
 
 ```
 node liri.js spotify-this [song name]
 ```
 
-- To search for a movie:
+- Search for a movie:
 
 ```
 node liri.js movie-this [movie name]
+```
+
+- Do something random:
+
+```
+node liri.js do-what-it-says
 ```
