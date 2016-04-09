@@ -1,0 +1,25 @@
+{
+  "name": "week-10",
+  "version": "1.0.0",
+  "description": "### Who is LIRI",
+  "main": "liri.js",
+  "dependencies": {
+    "spotify": "^0.3.0",
+    "request": "^2.69.0",
+    "twitter": "^1.2.5"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lijasminej/week-10.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/lijasminej/week-10/issues"
+  },
+  "homepage": "https://github.com/lijasminej/week-10#readme"
+}
